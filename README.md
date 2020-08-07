@@ -3,6 +3,7 @@ Pongo is a neural network that learns to play the game Pong by itself. It improv
 
 ## To-Do
 
+ * [x] Create Requirements.txt
  * [ ] Review code complexity
  * [ ] Review score formula
  * [ ] Separate large tasks into reusable methods

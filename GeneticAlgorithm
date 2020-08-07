@@ -1,4 +1,4 @@
-from RunGame import *
+from GameRun import *
 from random import choice, randint
 
 def cal_pop_fitness(pop):

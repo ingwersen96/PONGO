@@ -17,3 +17,32 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  requirements:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Requirements Build
+        id: Requirements
+        uses: ryan-rozario/pipreqs-action-cpy@master
+        with:
+          PROJECT_PATH: ingwerse96/PONGO
+          REQUIREMENT_PATH: ingwerse96/PONGO/requirements.txt  #default is requirement.txt in the root of your repository 
+  notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Send Email
+        id: sendEmail
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions job result
+          # Literal body:
+          body: Build job of ${{github.repository}} completed successfully! Find Sonar results at https://sonarcloud.io/dashboard?id=ingwersen96_PONGO&branch=master
+          to: erik.ingwersen@br.ey.com
+          from: Erik Ingwersen # <ingwersen1996@gmail.com>
+          # Optional content type (defaults to text/plain):
+          content_type: text/html

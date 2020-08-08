@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: python ./.github/workflows/test.py
+      - run: ./entrypoint.sh
   sonarcloud:
     runs-on: ubuntu-latest
     steps:

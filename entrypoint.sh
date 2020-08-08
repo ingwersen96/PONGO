@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-python3 /update_readme.py "${INPUT_PROJECTBASEDIR}"
+python3 ./.github/workflows/update_readme.py "${INPUT_PROJECTBASEDIR}"
 
 set -e
 sh -c "ls"

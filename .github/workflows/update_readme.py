@@ -17,5 +17,5 @@ def main(sonar_cloud_project_name):
         print(data, file=f)
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main(sys.argv[0])
     

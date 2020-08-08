@@ -4,7 +4,7 @@ import sys
 
 def main(sonar_cloud_project_name):
     
-    readme = "./readme.md"
+    readme = "./README.md"
     
     current_date = datetime.now()
     

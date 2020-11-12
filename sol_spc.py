@@ -83,7 +83,7 @@ def sol_matrix(df_inventory, item_id, config: Columns = Columns()):
                                                         price: 'mean'})
 
     sku[doi_balance] = round(sku[doi_balance],0)
-    
+
     bu_prov = [x for x in bu_transfer if x in list(sku[(sku[doi_balance]>=0) &
                                                        (sku[doi_balance] > sku[min_ship]/sku[price])][bu_num].unique())]
     bu_rec = [x for x in bu_receive if x in list(sku[(sku[doi_balance]<0) &
@@ -94,33 +94,33 @@ def sol_matrix(df_inventory, item_id, config: Columns = Columns()):
     # of items to be transfered.
     # Creating a matrix with zeros (it will be used as a base)
     sol_space = np.matrix(np.zeros((len(bu_prov) + 4, len(bu_rec) + 4)))
-    
+
     # For every BU in our list of BU's...
     for idx, bu_id in enumerate(bu_prov):
 
         # Adding to our matrix first column the identification ID of all BU's
-        
+
         for bu_idx, _ in sku.iterrows():
-            if (sku[bu_num].iloc[bu_idx] == bu_id) \
-                & (sku[doi_balance].iloc[bu_idx] >= 0):
-                    if bu_id in bu_transfer:
-                        sol_space[idx+4, 0] = bu_prov[idx]
-                        sol_space[idx+4, 1] = sku[doi_balance].iloc[bu_idx]
-                        sol_space[idx+4, 2] = (sku[min_ship].iloc[bu_idx])
-                        sol_space[idx+4, 3] = (sku[price].iloc[bu_idx])
-    
+            if (sku[bu_num].iloc[bu_idx] == bu_id) & (
+                sku[doi_balance].iloc[bu_idx] >= 0
+            ) and bu_id in bu_transfer:
+                sol_space[idx+4, 0] = bu_prov[idx]
+                sol_space[idx+4, 1] = sku[doi_balance].iloc[bu_idx]
+                sol_space[idx+4, 2] = (sku[min_ship].iloc[bu_idx])
+                sol_space[idx+4, 3] = (sku[price].iloc[bu_idx])
+
     # For every BU in our list of BU's...
     for idx, bu_id in enumerate(bu_rec):
 
         # Adding to our matrix first column the identification ID of all BU's
 
         for bu_idx, _ in sku.iterrows():
-            if (sku[bu_num].iloc[bu_idx] == bu_id) \
-                & (sku[doi_balance].iloc[bu_idx] < 0):
-                    if bu_id in bu_receive:
-                        sol_space[0, idx+4] = bu_rec[idx]
-                        sol_space[1, idx+4] = sku[doi_balance].iloc[bu_idx] * -1
-                        sol_space[2, idx+4] = (sku[min_ship].iloc[bu_idx])
-                        sol_space[3, idx+4] = (sku[price].iloc[bu_idx])
-                    
+            if (sku[bu_num].iloc[bu_idx] == bu_id) & (
+                sku[doi_balance].iloc[bu_idx] < 0
+            ) and bu_id in bu_receive:
+                sol_space[0, idx+4] = bu_rec[idx]
+                sol_space[1, idx+4] = sku[doi_balance].iloc[bu_idx] * -1
+                sol_space[2, idx+4] = (sku[min_ship].iloc[bu_idx])
+                sol_space[3, idx+4] = (sku[price].iloc[bu_idx])
+
     return sol_space

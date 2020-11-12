@@ -61,11 +61,7 @@ def init():
     paddle2_pos = [WIDTH +1 - HALF_PAD_WIDTH,HEIGHT//2]
     l_score = 0
     r_score = 0
-    if random.randrange(0,2) == 0:
-        bpos = ball_init(True)
-    else:
-        bpos = ball_init(False)
-        
+    bpos = ball_init(True) if random.randrange(0,2) == 0 else ball_init(False)
     return paddle1_pos, paddle2_pos, paddle1_vel, paddle2_vel, bpos, l_score
 
 
@@ -232,14 +228,12 @@ def keyup(event):
 def relativePos(paddle_pos, ball_pos):
     
     relpos = ((ball_pos[1] - paddle_pos[1])**2 + (ball_pos[0] - paddle_pos[0])**2)**0.5
-    
-    
+
+
     MAX = (WIDTH**2 + HEIGHT**2)**0.5
-    
-    
-    relpos_normalized = relpos / MAX
-    
-    return relpos_normalized
+
+
+    return relpos / MAX
 
 def getInputs():
     

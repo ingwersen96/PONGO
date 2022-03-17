@@ -1,7 +1,6 @@
-dataclasses==0.8
 NeuralNet==0.2.0
-numpy==1.20.1
-pandas==1.2.2
-pulp==2.4
-pygame==2.0.1
-tqdm==4.56.2
+numpy==1.22.3
+pandas==1.4.1
+pulp==2.6.0
+pygame==2.1.2
+tqdm==4.63.0

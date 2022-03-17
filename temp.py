@@ -184,19 +184,23 @@ def sol_matrix(df_inventory, item_id, config: Columns = Columns()):
         # Adding to our matrix first column the identification ID of all BU's
 
         for bu_idx, _ in sku.iterrows():
-            if (sku[bu_num].iloc[bu_idx] == bu_id) \
-                & ((sku[doi_balance].iloc[bu_idx] > 0) | ((sku[doi_balance].iloc[bu_idx] == 0) & (sku[ite].iloc[bu_idx] != 0))):
-                    if bu_id in bu_transfer:
-                        sol_space[idx+7, 0] = bu_prov[idx]
-                        sol_space[idx+7, 1] = sku[doi_balance].iloc[bu_idx]
-                        sol_space[idx+7, 2] = (sku[min_ship].iloc[bu_idx])
-                        sol_space[idx+7, 3] = (sku[price].iloc[bu_idx])
-                        sol_space[idx+7, 4] = sku[avg].iloc[bu_idx]
-                        sol_space[idx+7, 5] = sku[ite].iloc[bu_idx]
-                        sol_space[idx+7, 6] = sku[dte].iloc[bu_idx]
-                        sol_space[idx+7, 7] = sku[doi_target].iloc[bu_idx]
-                        sol_space[idx+7, 8] = sku[bu_qty].iloc[bu_idx]
- 
+            if (sku[bu_num].iloc[bu_idx] == bu_id) & (
+                (sku[doi_balance].iloc[bu_idx] > 0)
+                | (
+                    (sku[doi_balance].iloc[bu_idx] == 0)
+                    & (sku[ite].iloc[bu_idx] != 0)
+                )
+            ) and bu_id in bu_transfer:
+                sol_space[idx+7, 0] = bu_prov[idx]
+                sol_space[idx+7, 1] = sku[doi_balance].iloc[bu_idx]
+                sol_space[idx+7, 2] = (sku[min_ship].iloc[bu_idx])
+                sol_space[idx+7, 3] = (sku[price].iloc[bu_idx])
+                sol_space[idx+7, 4] = sku[avg].iloc[bu_idx]
+                sol_space[idx+7, 5] = sku[ite].iloc[bu_idx]
+                sol_space[idx+7, 6] = sku[dte].iloc[bu_idx]
+                sol_space[idx+7, 7] = sku[doi_target].iloc[bu_idx]
+                sol_space[idx+7, 8] = sku[bu_qty].iloc[bu_idx]
+
 
     # For every BU in our list of BU's...
     for idx, bu_id in enumerate(bu_rec):
@@ -204,16 +208,20 @@ def sol_matrix(df_inventory, item_id, config: Columns = Columns()):
         # Adding to our matrix first column the identification ID of all BU's
 
         for bu_idx, _ in sku.iterrows():
-            if (sku[bu_num].iloc[bu_idx] == bu_id) \
-                & ((sku[doi_balance].iloc[bu_idx] < 0) | ((sku[doi_balance].iloc[bu_idx] == 0) & (sku[ite].iloc[bu_idx] == 0))):
-                    if bu_id in bu_receive:
-                        sol_space[0, idx+9] = bu_rec[idx]
-                        sol_space[1, idx+9] = sku[doi_balance].iloc[bu_idx] * -1
-                        sol_space[2, idx+9] = (sku[min_ship].iloc[bu_idx])
-                        sol_space[3, idx+9] = (sku[price].iloc[bu_idx])
-                        sol_space[4, idx+9] = sku[avg].iloc[bu_idx]
-                        sol_space[5, idx+9] = sku[doi_target].iloc[bu_idx]
-                        sol_space[6, idx+9] = sku[bu_qty].iloc[bu_idx]
+            if (sku[bu_num].iloc[bu_idx] == bu_id) & (
+                (sku[doi_balance].iloc[bu_idx] < 0)
+                | (
+                    (sku[doi_balance].iloc[bu_idx] == 0)
+                    & (sku[ite].iloc[bu_idx] == 0)
+                )
+            ) and bu_id in bu_receive:
+                sol_space[0, idx+9] = bu_rec[idx]
+                sol_space[1, idx+9] = sku[doi_balance].iloc[bu_idx] * -1
+                sol_space[2, idx+9] = (sku[min_ship].iloc[bu_idx])
+                sol_space[3, idx+9] = (sku[price].iloc[bu_idx])
+                sol_space[4, idx+9] = sku[avg].iloc[bu_idx]
+                sol_space[5, idx+9] = sku[doi_target].iloc[bu_idx]
+                sol_space[6, idx+9] = sku[bu_qty].iloc[bu_idx]
 
     return sol_space
 
@@ -479,9 +487,7 @@ class Model():
 
             self.smatrix[i, j] = val
 
-        matrix_df = pd.DataFrame(self.smatrix)
-
-        return matrix_df
+        return pd.DataFrame(self.smatrix)
 
     def solve(self, item_id):
         """

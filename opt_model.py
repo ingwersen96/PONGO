@@ -233,9 +233,7 @@ class Model():
 
             self.smatrix[i, j] = val
 
-        matrix_df = pd.DataFrame(self.smatrix)
-
-        return matrix_df
+        return pd.DataFrame(self.smatrix)
 
     def solve(self, item_id):
         """
